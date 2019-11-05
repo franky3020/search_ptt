@@ -20,7 +20,6 @@ class Search_ptt_index():
             author = self.find_author(soup)
             
             post_data = self.find_post_data(soup)
-
             
             ptt_page_tmp = ptt_page(nrec, title, article_url, author, post_data)
           
@@ -32,7 +31,6 @@ class Search_ptt_index():
         soup = BeautifulSoup(self.source_html, "html.parser")
         every_page=soup.find_all("div", attrs={"class": "r-ent"})
         return every_page
-        
             
     
     def find_nrec(self,soupPage:object)->int:

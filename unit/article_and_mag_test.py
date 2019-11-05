@@ -5,12 +5,17 @@ from ptt_spider.Search_ptt_index import Search_ptt_index
 from ptt_spider.Analysis_page_msg import Analysis_page_msg
 
 driver = webdriver.Chrome("../chromedriver.exe")  
+ptt_page_driver = Search_ptt_index(driver)
+page_msg_driver = Analysis_page_msg(driver)
 
-page_msg = Analysis_page_msg(driver)
-msg_soup_list = page_msg.get_msg_soup_list("https://www.ptt.cc/bbs/Gossiping/M.1572918440.A.543.html")
+page_list = ptt_page_driver.get_page_list(39000)
+for page in page_list:
+    msg_soup_list = page_msg_driver.get_msg_soup_list(page.url)
+    print(page.title)
+    for msg in msg_soup_list:
+        msg.msg
 
 
-for msg in msg_soup_list:
-    print(msg.msg)
+
     
     
