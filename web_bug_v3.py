@@ -10,8 +10,7 @@ ptt_msgBoard_page = Analysis_page_msg(driver)
 ptt_insert_to_db = insert_msg()
 
 for page_index in range(38000,39000):
-    print(page_index,"is start!!")
-    
+   
     page_list = ptt_index_page.get_page_list(page_index)
     
     for page in page_list:
@@ -20,16 +19,20 @@ for page_index in range(38000,39000):
         
         is_insert_page_to_db = False
         for msg in msgObject_list:
+            
             if is_insert_page_to_db is False:#first time run is need insert author and article to db
                 page.set_count_msg(len(msgObject_list))
                 ptt_insert_to_db.create_article(int(page.nrec), page.title, page.author, page.url, page.get_sql_date_type(),page.get_up_url_index(),page.get_count_msg())
                 
                 is_insert_page_to_db = True
-            
-            ptt_insert_to_db.create_msg(msg.msg, msg.evaluation, msg.datetime, msg.user, page.url, msg.ip)
-            #print(msg.evaluation," ",msg.user," ",msg.msg," ",msg.ip," ",msg.datetime)
+                
+            try:
+                ptt_insert_to_db.create_msg(msg.msg, msg.evaluation, msg.datetime, msg.user, page.url, msg.ip)
+            except:
+                print("[ERROR] page_index: ",page_index,", ",page.title,", ",msg.msg,", ", sys.exc_info()[0])
+                
     
-    print(page_index,"is over!!")
+    print(page_index,"is ok!!")
     
 
 
