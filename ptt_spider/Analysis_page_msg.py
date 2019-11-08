@@ -13,10 +13,11 @@ class Analysis_page_msg():
         self.msg_soup_list = []
         
     def get_msgObject_list(self,url:str)->list:
+        self.msg_soup_list = []
         self.driver_goto_ptt_url(url)
         article_meta_soup = self.find_article_metaline(self.source_html)
         self.find_msg(article_meta_soup)
-        return self.msg_soup_list
+        return self.msg_soup_list.copy()
     
     def find_article_metaline(self,source_code:str)->object:
         soup = BeautifulSoup(source_code, "html.parser")

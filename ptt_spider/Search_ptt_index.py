@@ -14,22 +14,32 @@ class Search_ptt_index():
         article_soup=self.find_each_article(self.get_source_html())
         
         for soup in article_soup:
-            nrec = self.find_nrec(soup)
-            title = self.find_title(soup)
-            article_url = self.find_article_url(soup)
-            author = self.find_author(soup)
+            try:
+                nrec = self.find_nrec(soup)
+                title = self.find_title(soup)
+                article_url = self.find_article_url(soup)
+                author = self.find_author(soup)
+                
+                post_data = self.find_post_data(soup)
+                
+                ptt_page_tmp = ptt_page(nrec, title, article_url, author, post_data)
             
-            post_data = self.find_post_data(soup)
+                page_list.append(ptt_page_tmp)
+            except:
+                print("soup error in search: ", index)
+                pass
             
-            ptt_page_tmp = ptt_page(nrec, title, article_url, author, post_data)
-          
-            page_list.append(ptt_page_tmp)
             
         return page_list.copy()
     
     def find_each_article(self, source:str) -> list:
         soup = BeautifulSoup(self.source_html, "html.parser")
-        every_page=soup.find_all("div", attrs={"class": "r-ent"})
+        try:
+            every_page=soup.find_all("div", attrs={"class": "r-ent"})
+        except:
+            print("error in find_each_article")
+            every_page = []
+        
         return every_page
             
     
