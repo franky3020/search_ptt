@@ -11,6 +11,9 @@ ptt_index = Search_ptt_index(driver)
 page_list=ptt_index.get_page_list(34997)
 
 for page in page_list:
+    
+    
+    
     print(page.nrec)
     print(page.url)
     print(page.title)

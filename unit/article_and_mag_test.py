@@ -11,9 +11,9 @@ page_msg_driver = Analysis_page_msg(driver)
 page_list = ptt_page_driver.get_page_list(39000)
 for page in page_list:
     msg_soup_list = page_msg_driver.get_msg_soup_list(page.url)
-    print(page.title)
+    print(page.title,page.date)
     for msg in msg_soup_list:
-        msg.msg
+        print(msg.msg)
 
 
 
