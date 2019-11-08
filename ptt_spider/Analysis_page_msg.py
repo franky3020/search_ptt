@@ -12,7 +12,7 @@ class Analysis_page_msg():
         self.source_html = None
         self.msg_soup_list = []
         
-    def get_msg_soup_list(self,url:str)->list:
+    def get_msgObject_list(self,url:str)->list:
         self.driver_goto_ptt_url(url)
         article_meta_soup = self.find_article_metaline(self.source_html)
         self.find_msg(article_meta_soup)
@@ -29,7 +29,6 @@ class Analysis_page_msg():
         first_push_soup=None
         current_soup = push_mag.nextSibling
         if(current_soup == None):
-            self.msg_soup_list = []
             return
             
         while(True):
@@ -38,7 +37,6 @@ class Analysis_page_msg():
                 break
             current_soup = current_soup.nextSibling
             if(current_soup == None):
-                self.msg_soup_list = []
                 return
                
         current_soup =  first_push_soup

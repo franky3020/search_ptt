@@ -26,6 +26,12 @@ class ptt_page():
             return self.count_msg
         else:
             raise Exception("not hava count_msg")
+    
+    def get_sql_date_type(self):
+        data_MM = self.date.lstrip().split("/")[0]
+        data_DD = self.date.lstrip().split("/")[1]
+        sql_date_type="2019-"+data_MM+"-"+data_DD
+        return sql_date_type
         
         
  

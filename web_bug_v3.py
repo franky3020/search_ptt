@@ -1,35 +1,37 @@
 from selenium import webdriver
-from Search_ptt_index import Search_ptt_index
-from Analysis_page_msg import Analysis_page_msg
+from ptt_spider.Search_ptt_index import Search_ptt_index
+from ptt_spider.Analysis_page_msg import Analysis_page_msg
+from mysql_for_ptt.insert_msg import insert_msg
 
 driver = webdriver.Chrome("./chromedriver.exe")  
-ptt_index = Search_ptt_index(driver)
-analysis_page = Analysis_page_msg(driver)
+ptt_index_page = Search_ptt_index(driver)
+ptt_msgBoard_page = Analysis_page_msg(driver)
 
-page_list = ptt_index.get_page_list(31000)
-print(page_list)
+ptt_insert_to_db = insert_msg()
 
-
-
-for page in page_list:
-
-    print(page.get_title())
-    driver.get( page.get_url() )
+for page_index in range(38000,39000):
+    print(page_index,"is start!!")
     
-    source_html = driver.page_source
-    analysis_page.msg_detail_info(source_html)
-
-    while(analysis_page.have_next()):
-        msg_list = analysis_page.get_next_msg()
-        print(msg_list)
+    page_list = ptt_index_page.get_page_list(page_index)
+    
+    for page in page_list:
+        page.set_up_url_index(page_index)#
+        msgObject_list = ptt_msgBoard_page.get_msgObject_list(page.url)
         
-  
- 
-# sql = "INSERT INTO ptt_users_v2 (user_name, msg, msg_push_tab, msg_time, article_title, article_url \
-# )VALUES (%s, %s, %s, %s, %s, %s)"
+        is_insert_page_to_db = False
+        for msg in msgObject_list:
+            if is_insert_page_to_db is False:#first time run is need insert author and article to db
+                page.set_count_msg(len(msgObject_list))
+                ptt_insert_to_db.create_article(int(page.nrec), page.title, page.author, page.url, page.get_sql_date_type(),page.get_up_url_index(),page.get_count_msg())
+                
+                is_insert_page_to_db = True
+            
+            ptt_insert_to_db.create_msg(msg.msg, msg.evaluation, msg.datetime, msg.user, page.url, msg.ip)
+            #print(msg.evaluation," ",msg.user," ",msg.msg," ",msg.ip," ",msg.datetime)
+    
+    print(page_index,"is over!!")
+    
 
-# val = (user, msg, evaluation, self.re_datetime_sql(push_time), now_page_title, now_page_url)
-# self.db.execute(sql,val)
 
           
 

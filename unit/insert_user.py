@@ -8,7 +8,7 @@ from mysql_for_ptt.insert_msg import insert_msg
 driver = webdriver.Chrome("../chromedriver.exe")  
 
 page_msg = Analysis_page_msg(driver)
-msg_soup_list = page_msg.get_msg_soup_list("https://www.ptt.cc/bbs/Gossiping/M.1572918440.A.543.html")
+msg_soup_list = page_msg.get_msgObject_list("https://www.ptt.cc/bbs/Gossiping/M.1572918440.A.543.html")
 
 mag_insert_to_db = insert_msg()
 
