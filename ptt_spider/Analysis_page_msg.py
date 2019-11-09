@@ -25,11 +25,19 @@ class Analysis_page_msg():
         return meta_article_soup
         
     def find_msg(self,meta_article_soup):
+        if(meta_article_soup == None):
+            self.msg_soup_list = []
+            return
+        
         push_mag = meta_article_soup.find("span",attrs={"class": "f2"},text = re.compile("※ 發信站:.*"))
-       
+        if(push_mag == None):
+            self.msg_soup_list = []
+            return
+        
         first_push_soup=None
         current_soup = push_mag.nextSibling
         if(current_soup == None):
+            self.msg_soup_list = []
             return
             
         while(True):

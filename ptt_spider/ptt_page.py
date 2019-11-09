@@ -10,10 +10,10 @@ class ptt_page():
         self.count_msg = None
     
     def set_up_url_index(self,index:int):
-        self.up_url_index = index
+        self.up_url_index = int(index)
         
     def set_count_msg(self,count:int):
-        self.count_msg = count
+        self.count_msg = int(count)
         
     def get_up_url_index(self):
         if(self.up_url_index != None):
