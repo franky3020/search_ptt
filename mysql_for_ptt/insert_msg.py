@@ -20,13 +20,6 @@ class insert_msg():
         
         self.db.execute(insert_article_sql, args)
   
-    def create_user(self,user_name:str):
-        inster_user_sql = "insert into test_user (user_name)\
-                           Select %s Where not exists \
-                           (select * from test_user where user_name=%s)" 
-        args = (user_name,user_name)             
-        self.db.execute(inster_user_sql, args)
-       
     def create_msg(self, msg:str, msg_push_tab:str, msg_time:str, user_name:str, article_url:str,ipv4:str):   
         
         self.create_user(user_name)
@@ -39,6 +32,14 @@ class insert_msg():
         args = (msg, msg_push_tab, msg_time, user_id, article_url_id, ipv4)
         
         self.db.execute(inster_msg_sql, args)
+        
+    def create_user(self,user_name:str):
+        inster_user_sql = "insert into test_user (user_name)\
+                           Select %s Where not exists \
+                           (select * from test_user where user_name=%s)" 
+        args = (user_name,user_name)             
+        self.db.execute(inster_user_sql, args)
+       
         
 
     def get_user_id(self,user_name:str)->int:
